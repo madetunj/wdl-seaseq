@@ -1,6 +1,6 @@
 version 1.0
 
-import "util.wdl"
+import "https://raw.githubusercontent.com/madetunj/wdl-seaseq/master/wdl/util.wdl"
 
 workflow visualization {
     input {

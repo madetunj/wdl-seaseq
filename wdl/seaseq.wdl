@@ -1,17 +1,17 @@
 version 1.0
-import "fastqc.wdl"
-import "bedtools.wdl"
-import "bowtie.wdl"
-import "samtools.wdl"
-import "macs.wdl" 
-import "bamtogff.wdl"
-import "sicer.wdl"
-import "motifs.wdl"
-import "rose.wdl"
-import "util.wdl"
-import "visualization.wdl" as viz
-import "runspp.wdl"
-import "sortbed.wdl"
+import "https://raw.githubusercontent.com/madetunj/wdl-seaseq/master/wdl/fastqc.wdl"
+import "https://raw.githubusercontent.com/madetunj/wdl-seaseq/master/wdl/bedtools.wdl"
+import "https://raw.githubusercontent.com/madetunj/wdl-seaseq/master/wdl/bowtie.wdl"
+import "https://raw.githubusercontent.com/madetunj/wdl-seaseq/master/wdl/samtools.wdl"
+import "https://raw.githubusercontent.com/madetunj/wdl-seaseq/master/wdl/macs.wdl" 
+import "https://raw.githubusercontent.com/madetunj/wdl-seaseq/master/wdl/bamtogff.wdl"
+import "https://raw.githubusercontent.com/madetunj/wdl-seaseq/master/wdl/sicer.wdl"
+import "https://raw.githubusercontent.com/madetunj/wdl-seaseq/master/wdl/motifs.wdl"
+import "https://raw.githubusercontent.com/madetunj/wdl-seaseq/master/wdl/rose.wdl"
+import "https://raw.githubusercontent.com/madetunj/wdl-seaseq/master/wdl/util.wdl"
+import "https://raw.githubusercontent.com/madetunj/wdl-seaseq/master/wdl/visualization.wdl" as viz
+import "https://raw.githubusercontent.com/madetunj/wdl-seaseq/master/wdl/runspp.wdl"
+import "https://raw.githubusercontent.com/madetunj/wdl-seaseq/master/wdl/sortbed.wdl"
 
 workflow seaseq_dev_workflow {
     input {
