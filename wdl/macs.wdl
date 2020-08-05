@@ -5,7 +5,7 @@ task macs {
     input {
         File bamfile
 
-        Int memory_gb = 5
+        Int memory_gb = 10
         Int max_retries = 1
         Int ncpu = 1
 

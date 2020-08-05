@@ -17,7 +17,7 @@ task rose {
         Int tss = 2000
         Int stitch = 12500
 
-        Int memory_gb = 5
+        Int memory_gb = 20
         Int max_retries = 1
         Int ncpu = 1
     }
