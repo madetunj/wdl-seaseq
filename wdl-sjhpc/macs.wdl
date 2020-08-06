@@ -5,7 +5,7 @@ task macs {
     input {
         File bamfile
 
-        Int memory_gb = 5
+        Int memory_gb = 10
         Int max_retries = 1
         Int ncpu = 1
 
@@ -54,7 +54,7 @@ task macs {
         fi
     >>>
     runtime {
-        memory: memory_gb + " GB"
+        memory: ceil(memory_gb * ncpu) + " GB"
         maxRetries: max_retries
         cpu: ncpu
     }
