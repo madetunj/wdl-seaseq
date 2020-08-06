@@ -49,7 +49,7 @@ task wigtobigwig {
             ~{outputfile}
     >>> 
     runtime {
-        memory: memory_gb + " GB"
+        memory: ceil(memory_gb * ncpu) + " GB"
         maxRetries: max_retries
         docker: 'madetunj/wigtobigwig:v4'
         cpu: ncpu
@@ -78,7 +78,7 @@ task igvtdf {
             ~{genome}
     >>> 
     runtime {
-        memory: memory_gb + " GB"
+        memory: ceil(memory_gb * ncpu) + " GB"
         maxRetries: max_retries
         docker: 'madetunj/igvtools:v2.8.2'
         cpu: ncpu
@@ -137,7 +137,7 @@ task normalize {
 
     >>> 
     runtime {
-        memory: memory_gb + " GB"
+        memory: ceil(memory_gb * ncpu) + " GB"
         maxRetries: max_retries
         docker: 'madetunj/seaseq:v0.0.1'
         cpu: ncpu

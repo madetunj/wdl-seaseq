@@ -61,7 +61,7 @@ task bamtogff {
         mv matrix *png *pdf bamdensity_out/
     >>>
     runtime {
-        memory: memory_gb + " GB"
+        memory: ceil(memory_gb * ncpu) + " GB"
         maxRetries: max_retries
         docker: 'madetunj/bam2gff:v1.1.0'
         cpu: ncpu

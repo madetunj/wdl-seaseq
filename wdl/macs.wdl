@@ -54,7 +54,7 @@ task macs {
         fi
     >>>
     runtime {
-        memory: memory_gb + " GB"
+        memory: ceil(memory_gb * ncpu) + " GB"
         maxRetries: max_retries
         docker: 'madetunj/macs:v1.4.2'
         cpu: ncpu

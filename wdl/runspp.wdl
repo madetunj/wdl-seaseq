@@ -19,7 +19,7 @@ task runspp {
             -out=~{outputfile}
     >>> 
     runtime {
-        memory: memory_gb + " GB"
+        memory: ceil(memory_gb * ncpu) + " GB"
         maxRetries: max_retries
         docker: 'madetunj/spp:v1.16.0'
         cpu: ncpu

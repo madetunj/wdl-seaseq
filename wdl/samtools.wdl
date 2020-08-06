@@ -19,7 +19,7 @@ task indexstats {
         samtools index ~{basename(bamfile)}
     }
     runtime {
-        memory: memory_gb + " GB"
+        memory: ceil(memory_gb * ncpu) + " GB"
         maxRetries: max_retries
         docker: 'madetunj/samtools:v1.9'
         cpu: ncpu
@@ -46,7 +46,7 @@ task markdup {
             ~{outputfile}
     }
     runtime {
-        memory: memory_gb + " GB"
+        memory: ceil(memory_gb * ncpu) + " GB"
         maxRetries: max_retries
         docker: 'madetunj/samtools:v1.9'
         cpu: ncpu
@@ -75,7 +75,7 @@ task viewsort {
            -o ~{outputfile}
     }
     runtime {
-        memory: memory_gb + " GB"
+        memory: ceil(memory_gb * ncpu) + " GB"
         maxRetries: max_retries
         docker: 'madetunj/samtools:v1.9'
         cpu: ncpu
