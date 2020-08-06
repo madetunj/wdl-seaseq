@@ -17,7 +17,7 @@ task rose {
         Int tss = 2000
         Int stitch = 12500
 
-        Int memory_gb = 5
+        Int memory_gb = 20
         Int max_retries = 1
         Int ncpu = 1
     }
@@ -79,7 +79,7 @@ task rose {
         echo "Done!"
     >>>
     runtime {
-        memory: memory_gb + " GB"
+        memory: ceil(memory_gb * ncpu) + " GB"
         maxRetries: max_retries
         cpu: ncpu
     }

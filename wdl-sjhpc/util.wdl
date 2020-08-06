@@ -35,7 +35,7 @@ task basicfastqstats {
         rm -rf values.dat
     >>> 
     runtime {
-        memory: memory_gb + " GB"
+        memory: ceil(memory_gb * ncpu) + " GB"
         maxRetries: max_retries
         cpu: ncpu
     }
@@ -60,7 +60,7 @@ task flankbed {
         >> ~{outputfile}
     >>> 
     runtime {
-        memory: memory_gb + " GB"
+        memory: ceil(memory_gb * ncpu) + " GB"
         maxRetries: max_retries
         cpu: ncpu
     }
@@ -87,7 +87,7 @@ task summarystats {
         String outputhtml = sub(basename(bamflag),'-flagstat.txt', '_summary-stats.html')
         String outputtext = sub(basename(bamflag),'-flagstat.txt', '_summary-stats.txt')
 
-        Int memory_gb = 5
+        Int memory_gb = 10
         Int max_retries = 1
         Int ncpu = 1
     }
@@ -108,7 +108,7 @@ task summarystats {
             -outfile ~{outputfile}
     >>> 
     runtime {
-        memory: memory_gb + " GB"
+        memory: ceil(memory_gb * ncpu) + " GB"
         maxRetries: max_retries
         cpu: ncpu
     }
@@ -169,7 +169,7 @@ task normalize {
 
     >>> 
     runtime {
-        memory: memory_gb + " GB"
+        memory: ceil(memory_gb * ncpu) + " GB"
         maxRetries: max_retries
         cpu: ncpu
     }

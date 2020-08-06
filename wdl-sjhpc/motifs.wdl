@@ -57,7 +57,7 @@ task meme {
        tar -czvf ~{outputfolder}.tgz ~{outputfolder}
     >>>
     runtime {
-        memory: memory_gb + " GB"
+        memory: ceil(memory_gb * ncpu) + " GB"
         maxRetries: max_retries
         cpu: ncpu
     }
@@ -72,7 +72,7 @@ task ame {
         File fastafile
         Array[File]+ motif_databases
 
-        Int memory_gb = 5
+        Int memory_gb = 10
         Int max_retries = 1
         Int ncpu = 1
 
@@ -87,7 +87,7 @@ task ame {
        tar -czvf ~{outputfolder}.tgz ~{outputfolder}
     >>>
     runtime {
-        memory: memory_gb + " GB"
+        memory: ceil(memory_gb * ncpu) + " GB"
         maxRetries: max_retries
         cpu: ncpu
     }

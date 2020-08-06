@@ -15,7 +15,7 @@ task sicer {
 
         String outputname = basename(bedfile,'.bed')
 
-        Int memory_gb = 5
+        Int memory_gb = 15
         Int max_retries = 1
         Int ncpu = 1
     }
@@ -36,7 +36,7 @@ task sicer {
         mv *W200* SICER_out
     >>>
     runtime {
-        memory: memory_gb + " GB"
+        memory: ceil(memory_gb * ncpu) + " GB"
         maxRetries: max_retries
         docker: 'madetunj/sicer:v1.0.2'
         cpu: ncpu

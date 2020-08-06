@@ -16,7 +16,7 @@ task sortbed {
             > ~{outputfile}
     >>> 
     runtime {
-        memory: memory_gb + " GB"
+        memory: ceil(memory_gb * ncpu) + " GB"
         maxRetries: max_retries
         docker: 'madetunj/bedops:v2.4.37'
         cpu: ncpu

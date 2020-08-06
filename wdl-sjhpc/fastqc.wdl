@@ -8,7 +8,7 @@ task fastqc {
 
         Int memory_gb = 5
         Int max_retries = 1
-        Int ncpu = 20
+        Int ncpu = 1
     }
     command {
         ln -s ~{inputfile} ~{sub(basename(inputfile),'\.bam$','.bam.bam')}
@@ -17,7 +17,7 @@ task fastqc {
             ~{sub(basename(inputfile),'\.bam$','.bam.bam')}
     }
     runtime {
-        memory: memory_gb + " GB"
+        memory: ceil(memory_gb * ncpu) + " GB"
         maxRetries: max_retries
         cpu: ncpu
     }
