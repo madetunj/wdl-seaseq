@@ -1,4 +1,5 @@
 version 1.0
+# Bedtools tools
 
 task intersect {
     input {
@@ -25,7 +26,7 @@ task intersect {
             > ~{outputfile}~{suffixname}
     >>> 
     runtime {
-        memory: memory_gb + " GB"
+        memory: ceil(memory_gb * ncpu) + " GB"
         maxRetries: max_retries
         cpu: ncpu
     }
@@ -49,7 +50,7 @@ task bamtobed {
             > ~{outputfile}
     }
     runtime {
-        memory: memory_gb + " GB"
+        memory: ceil(memory_gb * ncpu) + " GB"
         maxRetries: max_retries
         cpu: ncpu
     }
@@ -79,7 +80,7 @@ task bedfasta {
             -fo ~{outputfile}
     }
     runtime {
-        memory: memory_gb + " GB"
+        memory: ceil(memory_gb * ncpu) + " GB"
         maxRetries: max_retries
         cpu: ncpu
     }
