@@ -35,7 +35,7 @@ task bowtie {
             > ~{outputfile}
     >>>
     runtime {
-        memory: memory_gb + " GB"
+        memory: ceil(memory_gb * ncpu) + " GB"
         maxRetries: max_retries
         docker: 'madetunj/bowtie:v1.2.3'
         cpu: ncpu

@@ -79,7 +79,7 @@ task rose {
         echo "Done!"
     >>>
     runtime {
-        memory: memory_gb + " GB"
+        memory: ceil(memory_gb * ncpu) + " GB"
         maxRetries: max_retries
         docker: 'madetunj/rose:v1.2.0'
         cpu: ncpu

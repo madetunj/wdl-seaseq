@@ -17,7 +17,7 @@ task fastqc {
             ~{sub(basename(inputfile),'\.bam$','.bam.bam')}
     }
     runtime {
-        memory: memory_gb + " GB"
+        memory: ceil(memory_gb * ncpu) + " GB"
         maxRetries: max_retries
         docker: 'madetunj/fastqc:v0.11.9'
         cpu: ncpu
