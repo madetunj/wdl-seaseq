@@ -3,8 +3,7 @@ version 1.0
 task fastqc {
     input {
         File inputfile
-        String suffix = ".fastq.gz"
-        String prefix = basename(inputfile, suffix)
+        String prefix = sub(basename(inputfile),'\.f.*q\.gz','')
 
         Int memory_gb = 5
         Int max_retries = 1
