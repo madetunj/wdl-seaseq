@@ -29,60 +29,73 @@ workflow seaseq_dev_workflow {
         input :
             inputfile=fastqfile
     }
+    
     call util.basicfastqstats as bfs {
         input :
             fastqfile=fastqfile
     }
+    
     call bowtie.bowtie {
         input :
             fastqfile=fastqfile,
             index_files=index_files,
             metricsfile=bfs.metrics_out
     }
+    
     call samtools.viewsort {
         input :
             samfile=bowtie.samfile
     }
+    
     call fastqc.fastqc as bamfqc {
         input :
             inputfile=viewsort.sortedbam
     }
+    
     call samtools.indexstats {
         input :
             bamfile=viewsort.sortedbam
     }
+    
     call bedtools.intersect as blacklist {
         input :
             fileA=viewsort.sortedbam,
             fileB=blacklistfile,
             nooverlap=true
     }
+    
     call samtools.markdup {
         input :
             bamfile=blacklist.intersect_out
     }
+    
     call samtools.indexstats as bklist {
         input :
             bamfile=blacklist.intersect_out
     }
+    
     call samtools.indexstats as mkdup {
         input :
             bamfile=markdup.mkdupbam
     }
+    
     call macs.macs {
         input :
             bamfile=blacklist.intersect_out
     }
+    
     call macs.macs as all {
         input :
             bamfile=blacklist.intersect_out,
             keep_dup="all"
     }
+    
     call macs.macs as nomodel {
         input :
             bamfile=blacklist.intersect_out,
             nomodel=true
     }
+    
     call bamtogff.bamtogff {
         input :
             gtffile=gtffile,
@@ -90,14 +103,17 @@ workflow seaseq_dev_workflow {
             bamfile=markdup.mkdupbam,
             bamindex=mkdup.indexbam
     }
+    
     call bedtools.bamtobed {
         input :
             bamfile=markdup.mkdupbam
     }
+    
     call sicer.sicer {
         input :
             bedfile=bamtobed.bedfile
     }
+    
     call motifs.motifs {
         input:
             reference=reference,
@@ -153,14 +169,17 @@ workflow seaseq_dev_workflow {
         input :
             bamfile=blacklist.intersect_out
     }
+    
     call runspp.runspp {
         input:
             bamfile=blacklist.intersect_out
     }
+    
     call sortbed.sortbed {
         input:
             bedfile=tobed.bedfile
     }
+    
     call bedtools.intersect {
         input:
             fileA=macs.peakbedfile,
@@ -168,7 +187,7 @@ workflow seaseq_dev_workflow {
             countoverlap=true,
             sorted=true
     }
-
+    
     call util.summarystats {
         input:
             bambed=tobed.bedfile,
@@ -182,6 +201,12 @@ workflow seaseq_dev_workflow {
             fastqmetrics=bfs.metrics_out,
             enhancers=rose.enhancers,
             superenhancers=rose.super_enhancers
+    }
+    
+    output {
+        File bigwig = vizall.bigwig
+        File norm_wig = vizall.norm_wig
+        File tdffile = vizall.tdffile
     }
 
 }
