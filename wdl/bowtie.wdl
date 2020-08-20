@@ -6,7 +6,7 @@ task bowtie {
         File? metricsfile
         Array[File]+ index_files
         String outputfile = sub(basename(fastqfile),'\_R[12]\_.+[0-9]\.f.*q\.gz','.sam')
-        Int? read_length
+        Int? read_length = 75
         Int limit_alignments = 2
         Int good_alignments = 2
         Boolean best_alignments = true
