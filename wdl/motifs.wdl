@@ -32,10 +32,9 @@ workflow motifs {
     }
 
     output {
-	    File ame_tsv = ame.ame_tsv
+	File ame_tsv = ame.ame_tsv
         File ame_html = ame.ame_html
         File ame_seq = ame.ame_seq
-        #File ame_out = ame.outputdir
         File meme_out = meme.outputdir 
         File meme_summary = meme.meme_summary
     }
