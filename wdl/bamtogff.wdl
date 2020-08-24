@@ -5,6 +5,7 @@ task bamtogff {
     input {
         File bamfile
         File bamindex
+        String default_location = "BAMDensity_files"
 
         File gtffile
         File chromsizes
@@ -17,7 +18,7 @@ task bamtogff {
         Int ncpu = 1
     }
     command <<<
-        mkdir bamdensity_out
+        mkdir -p ~{default_location}
 
         ln -s ~{bamfile} ~{basename(bamfile)}
         ln -s ~{bamindex} ~{basename(bamindex)}
@@ -58,7 +59,7 @@ task bamtogff {
 
         echo "Done!"
 
-        mv matrix *png *pdf bamdensity_out/
+        mv matrix *png *pdf ~{default_location}
     >>>
     runtime {
         memory: ceil(memory_gb * ncpu) + " GB"
@@ -67,16 +68,16 @@ task bamtogff {
         cpu: ncpu
     }
     output {
-        File m_downstream = "bamdensity_out/matrix/downstream.txt"
-	File m_upstream = "bamdensity_out/matrix/upstream.txt"
-	File m_genebody = "bamdensity_out/matrix/genebody.txt"
-	File m_promoters = "bamdensity_out/matrix/promoters.txt"
-        File? pdf_gene = "bamdensity_out/~{samplename}-entiregene.pdf"
-        File? pdf_h_gene = "bamdensity_out/~{samplename}-heatmap.entiregene.pdf"
-        File? png_h_gene = "bamdensity_out/~{samplename}-heatmap.entiregene.png"
-        File? pdf_h_gene = "bamdensity_out/~{samplename}-heatmap.entiregene.pdf"
-        File? pdf_promoters = "bamdensity_out/~{samplename}-promoters.pdf"
-        File? pdf_h_promoters = "bamdensity_out/~{samplename}-heatmap.promoters.pdf"
-        File? png_h_promoters = "bamdensity_out/~{samplename}-heatmap.promoters.png"
+        File m_downstream = "~{default_location}/matrix/downstream.txt"
+	File m_upstream = "~{default_location}/matrix/upstream.txt"
+	File m_genebody = "~{default_location}/matrix/genebody.txt"
+	File m_promoters = "~{default_location}/matrix/promoters.txt"
+        File? pdf_gene = "~{default_location}/~{samplename}-entiregene.pdf"
+        File? pdf_h_gene = "~{default_location}/~{samplename}-heatmap.entiregene.pdf"
+        File? png_h_gene = "~{default_location}/~{samplename}-heatmap.entiregene.png"
+        File? pdf_h_gene = "~{default_location}/~{samplename}-heatmap.entiregene.pdf"
+        File? pdf_promoters = "~{default_location}/~{samplename}-promoters.pdf"
+        File? pdf_h_promoters = "~{default_location}/~{samplename}-heatmap.promoters.pdf"
+        File? png_h_promoters = "~{default_location}/~{samplename}-heatmap.promoters.png"
     }
 }

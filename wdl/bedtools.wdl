@@ -11,12 +11,15 @@ task intersect {
 
         String outputfile = sub(basename(fileA), '\.b..$', '')
         String suffixname = if (nooverlap) then '.bklist.bam' else '.sorted.bed'
+        String default_location = "."
         
         Int memory_gb = 10
         Int max_retries = 1
         Int ncpu = 1
     }
     command <<<
+        mkdir -p ~{default_location} && cd ~{default_location}
+
         intersectBed \
             ~{true="-v" false="" nooverlap} \
             -a ~{fileA} \
@@ -32,7 +35,7 @@ task intersect {
         cpu: ncpu
     }
     output {
-        File intersect_out = "~{outputfile}~{suffixname}" 
+        File intersect_out = "~{default_location}/~{outputfile}~{suffixname}" 
     }
 }
 

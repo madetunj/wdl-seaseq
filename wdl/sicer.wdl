@@ -4,6 +4,7 @@ task sicer {
 
     input {
         File bedfile
+        String default_location = "PEAKS_files/BROAD_peaks"
 
         String species = "hg19"
         Int redundancy = 1
@@ -20,7 +21,7 @@ task sicer {
         Int ncpu = 1
     }
     command <<<
-        mkdir SICER_out
+        mkdir -p ~{default_location}
 
         sicer \
             -t ~{bedfile} \
@@ -33,7 +34,7 @@ task sicer {
             -e ~{evalue}
 
         gzip *wig
-        mv *W200* SICER_out
+        mv *W200* ~{default_location}
     >>>
     runtime {
         memory: ceil(memory_gb * ncpu) + " GB"
@@ -42,7 +43,7 @@ task sicer {
         cpu: ncpu
     }
     output {
-        File scoreisland = "SICER_out/~{outputname}-W200-G200.scoreisland"
-        File wigfile = "SICER_out/~{outputname}-W200-normalized.wig.gz"
+        File scoreisland = "~{default_location}/~{outputname}-W200-G200.scoreisland"
+        File wigfile = "~{default_location}/~{outputname}-W200-normalized.wig.gz"
     }
 }
