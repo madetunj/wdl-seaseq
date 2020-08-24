@@ -4,6 +4,7 @@ task macs {
 
     input {
         File bamfile
+        String default_location = "PEAKS_files/NARROW_peaks"
 
         Int memory_gb = 10
         Int max_retries = 1
@@ -23,9 +24,9 @@ task macs {
     }
     command <<<
         outputname="~{prefix}~{name}"
-        outputfolder="~{prefix}~{folder}"
+        outputfolder="~{default_location}/~{prefix}~{folder}"
 
-        mkdir ${outputfolder}
+        mkdir -p ${outputfolder}
 
         if [ "~{nomodel}" == 'true' ]; then
             macs14 \
@@ -60,9 +61,9 @@ task macs {
         cpu: ncpu
     }
     output {
-	File peakbedfile = "~{prefix}~{folder}\/~{prefix}~{name}_peaks.bed"
-	File peakxlsfile = "~{prefix}~{folder}\/~{prefix}~{name}_peaks.xls"
-	File summitsfile = "~{prefix}~{folder}\/~{prefix}~{name}_summits.bed"
-	File wigfile = "~{prefix}~{folder}\/~{prefix}~{name}_MACS_wiggle\/treat\/~{prefix}~{name}_treat_afterfiting_all.wig.gz"
+	File peakbedfile = "~{default_location}\/~{prefix}~{folder}\/~{prefix}~{name}_peaks.bed"
+	File peakxlsfile = "~{default_location}\/~{prefix}~{folder}\/~{prefix}~{name}_peaks.xls"
+	File summitsfile = "~{default_location}\/~{prefix}~{folder}\/~{prefix}~{name}_summits.bed"
+	File wigfile = "~{default_location}\/~{prefix}~{folder}\/~{prefix}~{name}_MACS_wiggle\/treat\/~{prefix}~{name}_treat_afterfiting_all.wig.gz"
     }
 }

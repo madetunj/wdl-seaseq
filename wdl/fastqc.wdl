@@ -4,6 +4,7 @@ task fastqc {
     input {
         File inputfile
         String prefix = sub(basename(inputfile),'\.f.*q\.gz','')
+        String default_location="QC_files/FASTQC"
 
         Int memory_gb = 5
         Int max_retries = 1
@@ -11,8 +12,11 @@ task fastqc {
     }
     command {
         ln -s ~{inputfile} ~{sub(basename(inputfile),'\.bam$','.bam.bam')}
+
+        mkdir -p ~{default_location}
+
         fastqc \
-            -o ./ \
+            -o ~{default_location} \
             ~{sub(basename(inputfile),'\.bam$','.bam.bam')}
     }
     runtime {
@@ -22,7 +26,7 @@ task fastqc {
         cpu: ncpu
     }
     output {
-        File htmlfile = "~{prefix}_fastqc.html"
-        File zipfile = "~{prefix}_fastqc.zip"
+        File htmlfile = "~{default_location}/~{prefix}_fastqc.html"
+        File zipfile = "~{default_location}/~{prefix}_fastqc.zip"
     }
 }

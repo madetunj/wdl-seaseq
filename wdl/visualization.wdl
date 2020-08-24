@@ -7,21 +7,25 @@ workflow visualization {
         File xlsfile
         File wigfile
         File chromsizes
+        String default_location = "PEAKDisplay_files"
     }
     
     call util.normalize {
         input:
             wigfile=wigfile,
-            xlsfile=xlsfile
+            xlsfile=xlsfile,
+            default_location=default_location
     }
     call wigtobigwig {
         input:
             chromsizes=chromsizes,
-            wigfile=normalize.norm_wig
+            wigfile=normalize.norm_wig,
+            default_location=default_location
     }
     call igvtdf {
         input:
-            wigfile=normalize.norm_wig
+            wigfile=normalize.norm_wig,
+            default_location=default_location
     }
     
     output {
@@ -35,6 +39,8 @@ task wigtobigwig {
     input {
         File wigfile
         File chromsizes
+        String default_location = "PEAKDisplay_files"
+
         String outputfile = sub(basename(wigfile),'\.wig\.gz', '.bw')
 
         Int memory_gb = 5
@@ -42,6 +48,8 @@ task wigtobigwig {
         Int ncpu = 1
     }
     command <<<
+        mkdir ~{default_location} && cd ~{default_location}
+
         wigToBigWig \
             -clip \
             ~{wigfile} \
@@ -55,13 +63,15 @@ task wigtobigwig {
         cpu: ncpu
     }
     output {
-        File bigwig = "~{outputfile}"
+        File bigwig = "~{default_location}/~{outputfile}"
     }
 }
 
 task igvtdf {
     input {
         File wigfile
+        String default_location = "PEAKDisplay_files"
+
         String genome = "hg19"
 
         String outputfile = sub(basename(wigfile),'\.wig\.gz', '.tdf')
@@ -71,6 +81,8 @@ task igvtdf {
         Int ncpu = 1
     }
     command <<<
+        mkdir ~{default_location} && cd ~{default_location}
+
         igvtools \
             toTDF \
             ~{wigfile} \
@@ -84,6 +96,6 @@ task igvtdf {
         cpu: ncpu
     }
     output {
-        File tdffile = "~{outputfile}"
+        File tdffile = "~{default_location}/~{outputfile}"
     }
 }

@@ -61,6 +61,7 @@ workflow seaseq_dev_workflow {
         input :
             fileA=viewsort.sortedbam,
             fileB=blacklistfile,
+            default_location="BAM_files",
             nooverlap=true
     }
     
@@ -124,7 +125,8 @@ workflow seaseq_dev_workflow {
 
     call util.flankbed {
         input :
-            bedfile=macs.summitsfile
+            bedfile=macs.summitsfile,
+            default_location="MOTIF_files"
     }
     
     call motifs.motifs as flank {
@@ -204,9 +206,100 @@ workflow seaseq_dev_workflow {
     }
     
     output {
-        File bigwig = vizall.bigwig
-        File norm_wig = vizall.norm_wig
-        File tdffile = vizall.tdffile
+        #FASTQC
+        File htmlfile = fastqc.htmlfile
+        File zipfile = fastqc.zipfile
+        File bam_htmlfile = bamfqc.htmlfile
+        File bam_zipfile = bamfqc.zipfile
+
+        #BASICMETRICS
+        File metrics_out = bfs.metrics_out
+
+        #FLANKBED
+        File flankbedfile = flankbed.flankbedfile
+
+        #BAMFILES
+        File sortedbam = viewsort.sortedbam
+        File mkdupbam = markdup.mkdupbam
+        File bklistbam = blacklist.intersect_out
+        File indexbam = indexstats.indexbam
+        File bklist_indexbam = bklist.indexbam
+        File mkdup_indexbam = mkdup.indexbam
+
+        #MACS
+        File peakbedfile = macs.peakbedfile
+        File peakxlsfile = macs.peakxlsfile
+        File summitsfile = macs.summitsfile
+        File wigfile = macs.wigfile
+        File all_peakbedfile = all.peakbedfile
+        File all_peakxlsfile = all.peakxlsfile
+        File all_summitsfile = all.summitsfile
+        File all_wigfile = all.wigfile
+        File nm_peakbedfile = nomodel.peakbedfile
+        File nm_peakxlsfile = nomodel.peakxlsfile
+        File nm_summitsfile = nomodel.summitsfile
+        File nm_wigfile = nomodel.wigfile
+
+        #SICER
+        File scoreisland = sicer.scoreisland
+        File sicer_wigfile = sicer.wigfile
+
+        #ROSE
+        File pngfile = rose.pngfile
+        File? mapped_union = rose.mapped_union
+        File? mapped_stitch = rose.mapped_stitch
+        File enhancers = rose.enhancers
+        File super_enhancers = rose.super_enhancers
+        File? gff_file = rose.gff_file
+        File? gff_union = rose.gff_union
+        File? union_enhancers = rose.union_enhancers
+        File? stitch_enhancers = rose.stitch_enhancers
+        File? e_to_g_enhancers = rose.e_to_g_enhancers
+        File? g_to_e_enhancers = rose.g_to_e_enhancers
+        File? e_to_g_super_enhancers = rose.e_to_g_super_enhancers
+        File? g_to_e_super_enhancers = rose.g_to_e_super_enhancers
+
+        #MOTIFS
+        File ame_tsv = motifs.ame_tsv
+        File ame_html = motifs.ame_html
+        File ame_seq = motifs.ame_seq
+        File meme = motifs.meme_out
+        File meme_summary = motifs.meme_summary
+
+        File summit_ame_tsv = flank.ame_tsv
+        File summit_ame_html = flank.ame_html
+        File summit_ame_seq = flank.ame_seq
+        File summit_meme = flank.meme_out
+        File summit_meme_summary = flank.meme_summary
+
+        #BAM2GFF
+        File m_downstream = bamtogff.m_downstream
+    	File m_upstream = bamtogff.m_upstream
+	    File m_genebody = bamtogff.m_genebody
+	    File m_promoters = bamtogff.m_promoters
+        File? pdf_gene = bamtogff.pdf_gene
+        File? pdf_h_gene = bamtogff.pdf_h_gene
+        File? png_h_gene = bamtogff.png_h_gene
+        File? pdf_h_gene = bamtogff.pdf_h_gene
+        File? pdf_promoters = bamtogff.pdf_promoters
+        File? pdf_h_promoters = bamtogff.pdf_h_promoters
+        File? png_h_promoters = bamtogff.png_h_promoters
+
+        #VISUALIZATION
+        File bigwig = visualization.bigwig
+        File norm_wig = visualization.norm_wig
+        File tdffile = visualization.tdffile
+        File n_bigwig = viznomodel.bigwig
+        File n_norm_wig = viznomodel.norm_wig
+        File n_tdffile = viznomodel.tdffile
+        File a_bigwig = vizall.bigwig
+        File a_norm_wig = vizall.norm_wig
+        File a_tdffile = vizall.tdffile
+
+        #QC-STATS
+        File qc_statsfile = summarystats.statsfile
+        File qc_htmlfile = summarystats.htmlfile
+        File qc_textfile = summarystats.textfile
     }
 
 }

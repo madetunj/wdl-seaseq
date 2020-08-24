@@ -4,12 +4,15 @@ task basicfastqstats {
     input {
         File fastqfile
         String outputfile = sub(basename(fastqfile),'\.f.*q\.gz', '-fastq.metrics.txt')
+        String default_location = "QC_files/STATS"
 
         Int memory_gb = 20
         Int max_retries = 1
         Int ncpu = 1
     }
     command <<<
+        mkdir -p ~{default_location} && cd ~{default_location}
+
         zcat ~{fastqfile} | awk 'NR%4==2' | awk '{print length}' | sort -n > values.dat
         
         stddev=$(awk '{x+=$0;y+=$0^2}END{print sqrt(y/NR-(x/NR)^2)}' values.dat)
@@ -41,7 +44,7 @@ task basicfastqstats {
         cpu: ncpu
     }
     output {
-        File metrics_out = "~{outputfile}"
+        File metrics_out = "~{default_location}/~{outputfile}"
     }
 }
 
@@ -49,6 +52,8 @@ task flankbed {
     input {
         File bedfile
         String outputfile = basename(bedfile, '.bed') + '-flank' + flank + '.bed'
+        String default_location = "."
+
         Int flank = 50
 
         Int memory_gb = 5
@@ -56,6 +61,8 @@ task flankbed {
         Int ncpu = 1
     }
     command <<<
+        mkdir -p ~{default_location} && cd ~{default_location}
+
         awk -F'[\t ]' '{
             printf $1"\t"$2-~{flank}"\t"$2+~{flank}"\t"$4"\t"$5"\n"}' ~{bedfile} \
         >> ~{outputfile}
@@ -67,7 +74,7 @@ task flankbed {
         cpu: ncpu
     }
     output {
-        File flankbedfile = "~{outputfile}"
+        File flankbedfile = "~{default_location}/~{outputfile}"
     }
 }
 
@@ -85,6 +92,7 @@ task summarystats {
         File enhancers
         File superenhancers
 
+        String default_location = "QC_files/STATS"
         String outputfile = sub(basename(bamflag),'-flagstat.txt', '_summary-stats.out')
         String outputhtml = sub(basename(bamflag),'-flagstat.txt', '_summary-stats.html')
         String outputtext = sub(basename(bamflag),'-flagstat.txt', '_summary-stats.txt')
@@ -94,6 +102,10 @@ task summarystats {
         Int ncpu = 1
     }
     command <<<
+        mkdir -p ~{default_location}
+
+        cd ~{default_location}
+
         ln -s ~{enhancers} ~{basename(enhancers)}
         ln -s ~{superenhancers} ~{basename(superenhancers)}
 
@@ -116,9 +128,9 @@ task summarystats {
         cpu: ncpu
     }
     output {
-        File statsfile = "~{outputfile}"
-        File htmlfile = "~{outputhtml}"
-        File textfile = "~{outputtext}"
+        File statsfile = "~{default_location}/~{outputfile}"
+        File htmlfile = "~{default_location}/~{outputhtml}"
+        File textfile = "~{default_location}/~{outputtext}"
     }
 }
 
@@ -127,6 +139,7 @@ task normalize {
     input {
         File wigfile
         File xlsfile
+        String default_location = "PEAKDisplay_files"
 
         String outputfile = sub(basename(wigfile),'\.wig\.gz', '.RPM.wig')
 
@@ -135,6 +148,8 @@ task normalize {
         Int ncpu = 1
     }
     command <<<
+
+        mkdir ~{default_location} && cd ~{default_location}
 
         gunzip -c ~{wigfile} > ~{basename(wigfile,'.gz')}
         ln -s ~{basename(wigfile,'.gz')} thewig.wig
@@ -178,7 +193,7 @@ task normalize {
         cpu: ncpu
     }
     output {
-        File norm_wig = "~{outputfile}.gz"
+        File norm_wig = "~{default_location}/~{outputfile}.gz"
     }
 }
 

@@ -8,6 +8,7 @@ workflow motifs {
         File reference 
         File reference_index
         Array[File]+ motif_databases
+        String default_location = "MOTIF_files"
     }
 
     call bedtools.bedfasta {
@@ -20,17 +21,23 @@ workflow motifs {
     call ame {
         input :
             motif_databases=motif_databases,
-            fastafile=bedfasta.fastafile
+            fastafile=bedfasta.fastafile,
+            default_location=default_location
     }
 
     call meme {
         input :
-            fastafile=bedfasta.fastafile
+            fastafile=bedfasta.fastafile,
+            default_location=default_location
     }
 
     output {
-	File ame_out = ame.outputdir
+	    File ame_tsv = ame.ame_tsv
+        File ame_html = ame.ame_html
+        File ame_seq = ame.ame_seq
+        #File ame_out = ame.outputdir
         File meme_out = meme.outputdir 
+        File meme_summary = meme.meme_summary
     }
 }
 
@@ -40,6 +47,7 @@ task meme {
         File fastafile
         Boolean spamo_skip = false
         Boolean fimo_skip = false
+        String default_location = "MOTIF_files"
 
         Int memory_gb = 5
         Int max_retries = 1
@@ -48,13 +56,16 @@ task meme {
         String outputfolder = "bklist" + sub(basename(fastafile,'.fa'),'^.*bklist','') + '-meme_out'
     }
     command <<<
+        mkdir -p ~{default_location} && cd ~{default_location}
+
         meme-chip \
             ~{true="-spamo-skip" false="" spamo_skip} \
             ~{true="-fimo-skip" false="" fimo_skip} \
             -oc ~{outputfolder} \
             ~{fastafile}
 
-       tar -czvf ~{outputfolder}.tgz ~{outputfolder}
+       zip -9r ~{outputfolder}.zip ~{outputfolder}
+       cp ~{outputfolder}/summary.tsv ~{outputfolder}-summary.tsv
     >>>
     runtime {
         memory: ceil(memory_gb * ncpu) + " GB"
@@ -63,7 +74,8 @@ task meme {
         cpu: ncpu
     }
     output {
-        File outputdir = "~{outputfolder}.tgz"
+        File outputdir = "~{default_location}/~{outputfolder}.zip"
+        File meme_summary = "~{default_location}/~{outputfolder}-summary.tsv"
     }
 }
 
@@ -72,6 +84,7 @@ task ame {
     input {
         File fastafile
         Array[File]+ motif_databases
+        String default_location = "MOTIF_files"
 
         Int memory_gb = 10
         Int max_retries = 1
@@ -80,12 +93,13 @@ task ame {
         String outputfolder = "bklist" + sub(basename(fastafile,'.fa'),'^.*bklist','') + '-ame_out'
     }
     command <<<
+        mkdir -p ~{default_location} && cd ~{default_location}
+
         ame \
             -oc ~{outputfolder} \
             ~{fastafile} \
             ~{sep=' ' motif_databases}
-
-       tar -czvf ~{outputfolder}.tgz ~{outputfolder}
+       gzip ~{outputfolder}/sequences.tsv
     >>>
     runtime {
         memory: ceil(memory_gb * ncpu) + " GB"
@@ -94,6 +108,8 @@ task ame {
         cpu: ncpu
     }
     output {
-        File outputdir = "~{outputfolder}.tgz"
+        File ame_tsv = "~{default_location}/~{outputfolder}/ame.tsv"
+        File ame_html = "~{default_location}/~{outputfolder}/ame.html"
+        File ame_seq = "~{default_location}/~{outputfolder}/sequences.tsv.gz"
     }
 }
