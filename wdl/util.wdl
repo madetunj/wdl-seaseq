@@ -93,9 +93,9 @@ task summarystats {
         File superenhancers
 
         String default_location = "QC_files/STATS"
-        String outputfile = sub(basename(bamflag),'-flagstat.txt', '_summary-stats.out')
-        String outputhtml = sub(basename(bamflag),'-flagstat.txt', '_summary-stats.html')
-        String outputtext = sub(basename(bamflag),'-flagstat.txt', '_summary-stats.txt')
+        String outputfile = sub(basename(fastqczip),'_fastqc.zip', '_seaseq-summary-stats.out')
+        String outputhtml = sub(basename(fastqczip),'_fastqc.zip', '_seaseq-summary-stats.html')
+        String outputtext = sub(basename(fastqczip),'_fastqc.zip', '_seaseq-summary-stats.txt')
 
         Int memory_gb = 10
         Int max_retries = 1
