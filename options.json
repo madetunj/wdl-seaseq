@@ -1,6 +1,0 @@
-{
-    "final_workflow_outputs_dir" : "ROSETEST",
-    "use_relative_output_paths": true,
-    "final_workflow_log_dir": "wf-rose_logs",
-    "final_call_logs_dir": "call-rose_logs"
-}

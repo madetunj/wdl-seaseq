@@ -1,7 +1,0 @@
-{
-    "rose_wf.bamfile" : "/research/rgs01/project_space/abrahgrp/Software_Dev_Sandbox/common/101madetunji/101WDL/SEASEQ/H3K27Ac-AB5.sorted.bklist.bam",
-    "rose_wf.bamindex" : "/research/rgs01/project_space/abrahgrp/Software_Dev_Sandbox/common/101madetunji/101WDL/SEASEQ/H3K27Ac-AB5.sorted.bklist.bam.bai",
-    "rose_wf.bedfile_auto" : "/research/rgs01/project_space/abrahgrp/Software_Dev_Sandbox/common/101madetunji/101WDL/SEASEQ/H3K27Ac-AB5.sorted.bklist-p9_kd-auto/H3K27Ac-AB5.sorted.bklist_p9_kd-auto_peaks.bed",
-    "rose_wf.bedfile_all" : "/research/rgs01/project_space/abrahgrp/Software_Dev_Sandbox/common/101madetunji/101WDL/SEASEQ/H3K27Ac-AB5.sorted.bklist-p9_kd-all/H3K27Ac-AB5.sorted.bklist_p9_kd-all_peaks.bed",
-    "rose_wf.gtffile" : "./test/hg19/GRCh37_latest_genomic_chr21.gtf"
-}
