@@ -260,27 +260,26 @@ workflow seaseq_dev_workflow {
         File? g_to_e_super_enhancers = rose.g_to_e_super_enhancers
 
         #MOTIFS
-        File ame_tsv = motifs.ame_tsv
-        File ame_html = motifs.ame_html
-        File ame_seq = motifs.ame_seq
+        File? ame_tsv = motifs.ame_tsv
+        File? ame_html = motifs.ame_html
+        File? ame_seq = motifs.ame_seq
         File meme = motifs.meme_out
         File meme_summary = motifs.meme_summary
 
-        File summit_ame_tsv = flank.ame_tsv
-        File summit_ame_html = flank.ame_html
-        File summit_ame_seq = flank.ame_seq
+        File? summit_ame_tsv = flank.ame_tsv
+        File? summit_ame_html = flank.ame_html
+        File? summit_ame_seq = flank.ame_seq
         File summit_meme = flank.meme_out
         File summit_meme_summary = flank.meme_summary
 
         #BAM2GFF
         File m_downstream = bamtogff.m_downstream
-    	File m_upstream = bamtogff.m_upstream
-	    File m_genebody = bamtogff.m_genebody
-	    File m_promoters = bamtogff.m_promoters
+        File m_upstream = bamtogff.m_upstream
+        File m_genebody = bamtogff.m_genebody
+        File m_promoters = bamtogff.m_promoters
         File? pdf_gene = bamtogff.pdf_gene
         File? pdf_h_gene = bamtogff.pdf_h_gene
         File? png_h_gene = bamtogff.png_h_gene
-        File? pdf_h_gene = bamtogff.pdf_h_gene
         File? pdf_promoters = bamtogff.pdf_promoters
         File? pdf_h_promoters = bamtogff.pdf_h_promoters
         File? png_h_promoters = bamtogff.png_h_promoters

@@ -75,7 +75,6 @@ task bamtogff {
         File? pdf_gene = "~{default_location}/~{samplename}-entiregene.pdf"
         File? pdf_h_gene = "~{default_location}/~{samplename}-heatmap.entiregene.pdf"
         File? png_h_gene = "~{default_location}/~{samplename}-heatmap.entiregene.png"
-        File? pdf_h_gene = "~{default_location}/~{samplename}-heatmap.entiregene.pdf"
         File? pdf_promoters = "~{default_location}/~{samplename}-promoters.pdf"
         File? pdf_h_promoters = "~{default_location}/~{samplename}-heatmap.promoters.pdf"
         File? png_h_promoters = "~{default_location}/~{samplename}-heatmap.promoters.png"
