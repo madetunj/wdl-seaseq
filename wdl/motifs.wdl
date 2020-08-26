@@ -32,9 +32,9 @@ workflow motifs {
     }
 
     output {
-	File ame_tsv = ame.ame_tsv
-        File ame_html = ame.ame_html
-        File ame_seq = ame.ame_seq
+        File? ame_tsv = ame.ame_tsv
+        File? ame_html = ame.ame_html
+        File? ame_seq = ame.ame_seq
         File meme_out = meme.outputdir 
         File meme_summary = meme.meme_summary
     }
@@ -107,8 +107,8 @@ task ame {
         cpu: ncpu
     }
     output {
-        File ame_tsv = "~{default_location}/~{outputfolder}/ame.tsv"
-        File ame_html = "~{default_location}/~{outputfolder}/ame.html"
-        File ame_seq = "~{default_location}/~{outputfolder}/sequences.tsv.gz"
+        File? ame_tsv = "~{default_location}/~{outputfolder}/ame.tsv"
+        File? ame_html = "~{default_location}/~{outputfolder}/ame.html"
+        File? ame_seq = "~{default_location}/~{outputfolder}/sequences.tsv.gz"
     }
 }
