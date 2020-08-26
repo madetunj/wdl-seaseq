@@ -1,16 +1,16 @@
 {
-    "seaseq_dev_workflow.fastqfile" : "./fastqfiles/H3K27Ac-AB5_R1_001.fastq.gz",
-    "seaseq_dev_workflow.reference" : "./hg19/CHR21INDEX/hg19_chr21.fa",
-    "seaseq_dev_workflow.reference_index" : "./hg19/CHR21INDEX/hg19_chr21.fa.fai",
-    "seaseq_dev_workflow.blacklistfile" : "./hg19/hg19-blacklist.v2_chr21.bed",
-    "seaseq_dev_workflow.gtffile" : "./hg19/GRCh37_latest_genomic_chr21.gtf",
-    "seaseq_dev_workflow.chromsizes" : "./hg19/UCSC_hg19_chromInfo_chr21.tab",
-    "seaseq_dev_workflow.motif_databases" : 
+    "seaseq.fastqfile" : "./fastqfiles/H3K27Ac-AB5_R1_001.fastq.gz",
+    "seaseq.reference" : "./hg19/CHR21INDEX/hg19_chr21.fa",
+    "seaseq.reference_index" : "./hg19/CHR21INDEX/hg19_chr21.fa.fai",
+    "seaseq.blacklistfile" : "./hg19/hg19-blacklist.v2_chr21.bed",
+    "seaseq.gtffile" : "./hg19/GRCh37_latest_genomic_chr21.gtf",
+    "seaseq.chromsizes" : "./hg19/UCSC_hg19_chromInfo_chr21.tab",
+    "seaseq.motif_databases" : 
     [
         "./hg19/motifs/JASPAR2018_CORE_vertebrates_redundant.meme",
         "./hg19/motifs/CIS-BP.Homo_sapiens.meme"
     ],
-    "seaseq_dev_workflow.index_files" :
+    "seaseq.index_files" :
     [
         "./hg19/CHR21INDEX/hg19_chr21.1.ebwt",
         "./hg19/CHR21INDEX/hg19_chr21.2.ebwt",

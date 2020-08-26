@@ -13,7 +13,7 @@ import "https://raw.githubusercontent.com/madetunj/wdl-seaseq/master/wdl/visuali
 import "https://raw.githubusercontent.com/madetunj/wdl-seaseq/master/wdl/runspp.wdl"
 import "https://raw.githubusercontent.com/madetunj/wdl-seaseq/master/wdl/sortbed.wdl"
 
-workflow seaseq_dev_workflow {
+workflow seaseq {
     input {
         File fastqfile
         File reference

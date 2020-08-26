@@ -1,6 +1,6 @@
 {
     "final_workflow_outputs_dir" : "SEASEQ",
     "use_relative_output_paths": true,
-    "final_workflow_log_dir": "wf-seaseq_logs",
-    "final_call_logs_dir": "call-seaseq_logs"
+    "final_workflow_log_dir": "seaseq_logs",
+    "final_call_logs_dir": "seaseq_logs"
 }
