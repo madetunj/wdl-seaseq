@@ -1,19 +1,43 @@
 #!/bin/bash
+## Test WDL script using samplefiles provided.
 
-modupe_imac_cromwell="/Users/madetunj/Downloads/cromwell-51.jar"
+# CROMWELL on local machine
+local_cromwell="/Users/madetunj/Downloads/cromwell-51.jar"
+
+# CROMWELL on hpc user directory
+sjhpc_cromwell="/home/madetunj/.software/cromwell-52.jar"
+lsf_config="/home/madetunj/.commands/lsf.conf"
+
+# STD OUT and ERR files
 logout="wdlseaseq-out"
 logerr="wdlseaseq-err"
 
-#removing old files
-rm -rf SEASEQ wf-seaseq_logs call-seaseq_logs wdlseaseq*
+# removing old files
+rm -rf SEASEQ seaseq_logs wdlseaseq*
 
-#hpc syntax
-wdlscript="java -Dconfig.file=/home/madetunj/.commands/lsf.conf -jar /home/madetunj/.software/cromwell-52.jar run ../wdl/seaseq.wdl --inputs seaseqinputs.json --options seaseqoptions.json"
+# check if cromwell app exists
+if [ -f "$local_cromwell" ]; then
+    java -jar $local_cromwell \
+        run ../wdl/seaseq.wdl \
+        -i inputs.json \
+        -o options.json \
+        1>$logout 2>$logerr
 
-#checking if imac cromwell file exists else its hpc
-if [ -f "$modupe_imac_cromwell" ]; then
-    java -jar ~/Downloads/cromwell-51.jar run ../wdl/seaseq.wdl -i seaseqinputs.json -o seaseqoptions.json 1>$logout 2>$logerr
+elif [ -f "$sjhpc_cromwell" ]; then 
+    #script syntax
+    wdlscript="java -Dconfig.file=$lsf_config \
+        -jar $sjhpc_cromwell \
+        run ../wdl/seaseq.wdl \
+        --inputs seaseqinputs.json \
+        --options seaseqoptions.json"
+    bsub -P watcher -q compbio \
+        -J wdlseaseq \
+        -o $logout \
+        -e $logerr \
+        -N $wdlscript
+
 else
-    bsub -P watcher -q compbio -J wdlseaseq -o $logout -e $logerr -N $wdlscript
+    echo "cromwell executable jar doesN'T exist"
+
 fi
 
