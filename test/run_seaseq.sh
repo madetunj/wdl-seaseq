@@ -19,8 +19,8 @@ rm -rf SEASEQ seaseq_logs wdlseaseq*
 if [ -f "$local_cromwell" ]; then
     java -jar $local_cromwell \
         run ../wdl/seaseq.wdl \
-        -i inputs.json \
-        -o options.json \
+        -i seaseqinputs.json \
+        -o seaseqoptions.json \
         1>$logout 2>$logerr
 
 elif [ -f "$sjhpc_cromwell" ]; then 
