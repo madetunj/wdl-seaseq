@@ -12,7 +12,7 @@ dx new project
 dx build seaseq-reorg
 
 #build wdl workflow
-java -jar dxWDL-v1.48.2.jar compile wdl/seaseq.wdl \
+java -jar dxWDL-v1.48.2.jar compile seaseq.wdl \
     -project project-id \
     -reorg -extras.json \
     -folder /apps
